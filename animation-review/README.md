@@ -4,18 +4,20 @@
 
 # Animation Review
 
-Get frame-level feedback on your web animations. Record your UI with Playwright, send the video to Gemini, and get structured analysis — from a quick sanity check to frame-by-frame bug diagnosis.
+Get frame-level feedback on your web animations for hugely simplified tweaking and debugging. Automatically records the interaction in the browser with Playwright, sends the video to Gemini, and provides structured analysis — from a quick sanity check to frame-by-frame bug diagnosis.
 
-The key workflow is **escalation**: start with a cheap 5fps check, then zoom into a specific time range at 24fps when something needs closer inspection. Same video, no re-recording — Gemini clips server-side.
+The key workflow is **escalation**: start with a quick 5fps check, then target into a specific time ranges at 24fps when something needs closer inspection. Same video, no re-recording — Gemini clips server-side. 
 
 Works as a [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill (Claude handles recording and analysis automatically) or standalone via CLI.
 
 ## Modes
 
+The skill automatically handles selecting the right level of analysis, and adjusts the instructions and context it passes to Gemini accordingly. If you prefer, you can specify a mode explicitly.
+
 | Mode | FPS | Model | |
 |------|-----|-------|-|
 | **check** | 5 | Flash | *"Does it work?"* — Quick pass/fail. Animations fire, complete, nothing visually breaks. |
-| **review** | 12 | Flash | *"How does it feel?"* — Easing, timing, choreography, polish. Scored 1–10 against production standards. |
+| **review** | 12 | Flash | *"How does it feel?"* — Easing, timing, choreography, overall polish. Scored 1–10 against production standards. |
 | **diagnose** | 24 | Pro | *"What's going wrong?"* — Frame-by-frame bug analysis with timestamps, pixel positions, and visual evidence for debugging. |
 | **inspire** | 24 | Pro | *"How do I recreate this?"* — Decompose a reference video into a technology-agnostic animation spec. |
 
