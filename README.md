@@ -1,3 +1,6 @@
 ## Custom Skills for Claude Code.
 
-This is just the parent folder. Open a skill directory for more info.
+Only one skill here for now:
+
+### Animation review
+https://github.com/jaaaaaaaaaaack/custom-skills/tree/main/animation-review
