@@ -16,10 +16,10 @@ The skill automatically handles selecting the right level of analysis, and adjus
 
 | Mode | FPS | Model | |
 |------|-----|-------|-|
-| **check** | 5 | Flash | *"Does it work?"* — Quick pass/fail. Animations fire, complete, nothing visually breaks. |
-| **review** | 12 | Flash | *"How does it feel?"* — Easing, timing, choreography, overall polish. Scored 1–10 against production standards. |
-| **diagnose** | 24 | Pro | *"What's going wrong?"* — Frame-by-frame bug analysis with timestamps, pixel positions, and visual evidence for debugging. |
-| **inspire** | 24 | Pro | *"How do I recreate this?"* — Decompose a reference video into a technology-agnostic animation spec. |
+| **check** | 5 | Gemini 2.5 Flash | *"Does it work?"* — Quick pass/fail. Animations fire, complete, nothing visually breaks. |
+| **review** | 12 | Gemini 2.5 Flash | *"How does it feel?"* — Easing, timing, choreography, overall polish. Scored 1–10 against production standards. |
+| **diagnose** | 24 | Gemini 2.5 Pro | *"What's going wrong?"* — Frame-by-frame bug analysis with timestamps, pixel positions, and visual evidence for debugging. |
+| **inspire** | 24 | Gemini 2.5 Pro | *"How do I recreate this?"* — Decompose a reference video into a technology-agnostic animation spec. |
 
 ## Setup
 
