@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="animation-review_thumb.png" alt="animation-review" width="600">
+</p>
+
 # Animation Review
 
 Get frame-level feedback on your web animations. Record your UI with Playwright, send the video to Gemini, and get structured analysis — from a quick sanity check to frame-by-frame bug diagnosis.
