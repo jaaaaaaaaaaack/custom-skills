@@ -58,9 +58,9 @@ mkdir -p ~/.claude/skills
 ln -s "$(pwd)" ~/.claude/skills/animation-review
 ```
 
-## Usage
+## CLI usage (optional)
 
-> **If you're using this as a Claude Code skill, you don't need to run any of this manually.** Just ask Claude to review an animation and it handles recording, analysis, and mode selection automatically. The details below are for standalone use or if you want to understand what's happening under the hood.
+When installed as a Claude Code skill, Claude handles recording and analysis automatically — just ask it to review an animation. The commands below are only needed if you want to run the scripts directly.
 
 ### 1. Record
 
