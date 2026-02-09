@@ -1,21 +1,19 @@
 # Animation Review
 
-A Claude Code skill that reviews web animations by recording the browser and sending video to Gemini for analysis.
+Get frame-level feedback on your web animations. Record your UI with Playwright, send the video to Gemini, and get structured analysis — from a quick sanity check to frame-by-frame bug diagnosis.
 
-Claude drives a headless browser with Playwright, captures video of your animations, then sends it to Gemini's video understanding API for structured feedback — frame-level timing analysis, easing evaluation, bug diagnosis, or effect decomposition for recreation.
+The key workflow is **escalation**: start with a cheap 5fps check, then zoom into a specific time range at 24fps when something needs closer inspection. Same video, no re-recording — Gemini clips server-side.
 
-## How it works
+Works as a [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill (Claude handles recording and analysis automatically) or standalone via CLI.
 
-Four analysis modes, each tuned to a different question:
+## Modes
 
-| Mode | FPS | Model | Question |
-|------|-----|-------|----------|
-| **check** | 5 | Flash | "Does it work?" |
-| **review** | 12 | Flash | "How does it feel?" |
-| **diagnose** | 24 | Pro | "What's going wrong?" |
-| **inspire** | 24 | Pro | "What's happening here?" |
-
-The core workflow is escalation: run `check` or `review` on a full recording, then zoom into a specific time range with `diagnose` at 24fps if something needs closer inspection. Gemini clips server-side — no re-recording needed.
+| Mode | FPS | Model | |
+|------|-----|-------|-|
+| **check** | 5 | Flash | *"Does it work?"* — Quick pass/fail. Animations fire, complete, nothing visually breaks. |
+| **review** | 12 | Flash | *"How does it feel?"* — Easing, timing, choreography, polish. Scored 1–10 against production standards. |
+| **diagnose** | 24 | Pro | *"What's going wrong?"* — Frame-by-frame bug analysis with timestamps, pixel positions, and visual evidence for debugging. |
+| **inspire** | 24 | Pro | *"How do I recreate this?"* — Decompose a reference video into a technology-agnostic animation spec. |
 
 ## Setup
 
@@ -44,40 +42,76 @@ Add this to your shell profile (`~/.zshrc`, `~/.bashrc`, etc.) to persist it.
 
 ### Install as a Claude Code skill
 
-Symlink this directory into your Claude Code skills folder:
+From the `animation-review` directory:
 
 ```bash
 mkdir -p ~/.claude/skills
-ln -s /path/to/animation-review ~/.claude/skills/animation-review
+ln -s "$(pwd)" ~/.claude/skills/animation-review
 ```
 
 Claude will automatically discover SKILL.md and use it when animation review is relevant.
 
 ## Usage
 
-Once installed as a skill, Claude handles recording and analysis automatically. You can also run the scripts directly:
+### 1. Record
+
+#### Automated (recommended)
+
+Use `record_browser.py` to drive a headless browser. Playwright records internally — no screen recording permissions needed.
 
 ```bash
 # Record a page load animation
 python3 scripts/record_browser.py http://localhost:3000
 
-# Record specific interactions
+# Click a button, wait for animation
 python3 scripts/record_browser.py http://localhost:3000 \
   -a 'click:.play-btn' -a 'wait:2000'
 
-# Analyze with review mode
-python3 scripts/analyze.py -t review -p "Cards should fade in with stagger"
+# Custom viewport size
+python3 scripts/record_browser.py http://localhost:3000 -W 375 -H 812
+```
 
-# Diagnose a specific time range at 24fps
+#### Manual (macOS only)
+
+Use `record.sh` when you need to interact with the browser yourself:
+
+```bash
+bash scripts/record.sh -d 10
+```
+
+#### Existing video
+
+Already have a recording? Skip straight to analysis — pass any `.mp4`, `.mov`, or `.webm` file to `analyze.py`.
+
+### 2. Analyze
+
+```bash
+# Review design quality
+python3 scripts/analyze.py -t review -p "Cards should stagger in with a spring ease"
+
+# Diagnose a bug at full precision
+python3 scripts/analyze.py -t diagnose \
+  -p "The carousel jumps unexpectedly at the end of the rotation"
+
+# Zoom into a specific time range (saves tokens, improves accuracy)
 python3 scripts/analyze.py -t diagnose --start 2s --end 5s \
   -p "Card jumps position at ~3s during close animation"
 ```
 
-## Important: interpreting results
+Use `--json` or `--raw` to override the default output format (structured JSON for check/review, raw text for diagnose/inspire).
+
+## Interpreting results
 
 Gemini's visual observations (what changed between frames, timing, positions) are reliable. Its theories about *why* something happens are hypotheses — it can't see your code, DOM structure, or CSS. The `diagnose` output separates these into distinct **Observations** and **Hypotheses** sections for this reason.
 
 Treat observations as evidence. Treat hypotheses as leads to investigate.
+
+## Troubleshooting
+
+- **`ffmpeg not found`**: Ensure ffmpeg is installed and in your PATH.
+- **`playwright not found`**: Run `pip install playwright`.
+- **Browser doesn't launch**: Run `playwright install chromium`.
+- **Screen recording fails** (`record.sh`): Grant Screen Recording permission to your terminal app in macOS System Settings.
 
 ## License
 
