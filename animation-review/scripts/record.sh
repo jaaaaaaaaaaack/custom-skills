@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# macOS only — uses avfoundation for screen capture. For cross-platform recording, use record_browser.py instead.
 set -euo pipefail
 
 # Defaults
