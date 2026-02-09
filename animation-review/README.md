@@ -60,6 +60,8 @@ ln -s "$(pwd)" ~/.claude/skills/animation-review
 
 ## Usage
 
+> **If you're using this as a Claude Code skill, you don't need to run any of this manually.** Just ask Claude to review an animation and it handles recording, analysis, and mode selection automatically. The details below are for standalone use or if you want to understand what's happening under the hood.
+
 ### 1. Record
 
 #### Automated (recommended)
