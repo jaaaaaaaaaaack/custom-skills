@@ -29,33 +29,34 @@ The skill automatically handles selecting the right level of analysis, and adjus
 - [ffmpeg](https://ffmpeg.org/) (`brew install ffmpeg` on macOS)
 - A [Gemini API key](https://aistudio.google.com/apikey)
 
-### Install
+### Quick install
 
 ```bash
-pip install -r requirements.txt
+npx skills add jaaaaaaaaaaack/custom-skills
+pip install -r ~/.claude/skills/animation-review/requirements.txt
 playwright install chromium
 ```
 
 ### API key
 
-Set your Gemini API key as an environment variable:
+Set your Gemini API key as an environment variable. Add this to your shell profile (`~/.zshrc`, `~/.bashrc`, etc.):
 
 ```bash
 export GEMINI_API_KEY=your-key-here
 ```
 
-Add this to your shell profile (`~/.zshrc`, `~/.bashrc`, etc.) to persist it.
+### Manual install
 
-### Install as a Claude Code skill
-
-From the `animation-review` directory:
+If you prefer not to use the skills CLI:
 
 ```bash
+git clone https://github.com/jaaaaaaaaaaack/custom-skills.git
+cd custom-skills/animation-review
+pip install -r requirements.txt
+playwright install chromium
 mkdir -p ~/.claude/skills
 ln -s "$(pwd)" ~/.claude/skills/animation-review
 ```
-
-Claude will automatically discover SKILL.md and use it when animation review is relevant.
 
 ## Usage
 

@@ -1,3 +1,8 @@
+---
+name: animation-review
+description: Review web animations by recording the browser and sending video to Gemini for frame-level analysis
+---
+
 # Animation Review
 
 Review animations and interactions by recording the browser and sending the video to Gemini for structured analysis.
