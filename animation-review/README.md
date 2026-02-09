@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="animation-review_thumb.png" alt="animation-review" width="600">
+  <img src="animation-review_thumb.png" alt="animation-review" width="100%">
 </p>
 
 # Animation Review
