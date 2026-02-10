@@ -8,7 +8,7 @@ Get frame-level feedback on your web animations for massively simplified tweakin
 
 The key workflow is **escalation**: start with a quick 5fps check, then target specific time ranges at 24fps when something needs closer inspection. Same video, no re-recording — Gemini clips server-side.
 
-Works as a [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill (Claude handles recording and analysis automatically) or standalone via CLI.
+Tested with [Claude Code](https://docs.anthropic.com/en/docs/claude-code), but should work with any agent that supports skills. Also usable standalone via CLI.
 
 ## Modes
 
@@ -32,11 +32,11 @@ npx skills add jaaaaaaaaaaack/custom-skills
 
 ### 2. Install dependencies
 
-The skill needs to install Python packages and a Chromium browser for headless recording. The easiest way is to ask Claude to do it: **Reload your IDE / start a new Claude Code session**, then say:
+The skill needs Python packages and a Chromium browser for headless recording. The easiest way is to ask your agent to do it — **start a new session**, then say:
 
 > Install the requirements and set up the animation-review skill
 
-Claude will find the right paths and install everything for you.
+Your agent will find the right paths and install everything for you.
 
 <details>
 <summary>**Or install manually**</summary>
@@ -52,7 +52,7 @@ You'll also need [ffmpeg](https://ffmpeg.org/) for macOS screen recording (brows
 brew install ffmpeg   # macOS
 ```
 
-If the `pip3` command fails with "No such file or directory", the skill may have installed to `~/.agents/skills/` instead — check there. Or just ask Claude to help.
+If the `pip3` command fails with "No such file or directory", the skill may have installed to `~/.agents/skills/` instead — check there.
 
 </details>
 
@@ -71,7 +71,7 @@ export GEMINI_API_KEY=your-key-here
 Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey). 
 </details>
 
-### 4. Restart Claude Code
+### 4. Restart your agent
 
 Start a **new session** for the skill to appear. It won't show up in an existing session.
 
@@ -79,7 +79,7 @@ Start a **new session** for the skill to appear. It won't show up in an existing
 
 ## CLI usage (optional)
 
-When installed as a Claude Code skill, Claude handles recording and analysis automatically — just ask it to review an animation. **The commands below are only needed if you want to run the scripts directly.**
+When installed as a skill, your agent handles recording and analysis automatically — just ask it to review an animation. **The commands below are only needed if you want to run the scripts directly.**
 
 ### 1. Record
 
