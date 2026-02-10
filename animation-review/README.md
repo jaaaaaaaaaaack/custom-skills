@@ -2,7 +2,7 @@
   <img src="animation-review_thumb.png" alt="animation-review" width="100%">
 </p>
 
-# Animation Review
+# Animation-review skill
 
 Get detailed, frame-level feedback for your web animations to massively simplify tweaking and debugging. 
 
