@@ -4,11 +4,17 @@
 
 # Animation Review
 
-Get frame-level feedback on your web animations for massively simplified tweaking and debugging. Automatically records the interaction in the browser with Playwright, sends the video to Gemini, and provides structured analysis — from a quick sanity check to frame-by-frame bug diagnosis.
+Get detailed, frame-level feedback for your web animations to massively simplify tweaking and debugging. 
 
-The key workflow is **escalation**: start with a quick 5fps check, then target specific time ranges at 24fps when something needs closer inspection. Same video, no re-recording — Gemini clips server-side.
+What this skill does:
+- Records a specific interaction in the browser using Playwright (or you can point it at an existing video file)
+- Chooses the best mode for the task (see below)
+- Automatically trims the video to save time and tokens, then sends it to Gemini with relevant context + a mode-specific instructions
+- Gemini provides structured analysis, from a quick sanity check to frame-by-frame bug diagnosis.
 
-Tested with [Claude Code](https://docs.anthropic.com/en/docs/claude-code), but should work with any agent that supports skills. Also usable standalone via CLI.
+Agents can also use **escalation**: they can choose to start with a quick 5fps check, then target specific time ranges at 24fps when something needs closer inspection. No re-recording needed, Gemini clips it to the refined time range server-side.
+
+Tested with [Claude Code](https://docs.anthropic.com/en/docs/claude-code), but it should also work with any agent that supports skills. It's also usable standalone via CLI.
 
 ## Modes
 
@@ -39,7 +45,7 @@ The skill needs Python packages and a Chromium browser for headless recording. T
 Your agent will find the right paths and install everything for you.
 
 <details>
-<summary>**Or install manually**</summary>
+<summary>Or install manually</summary>
 
 ```bash
 pip3 install -r ~/.claude/skills/animation-review/requirements.txt
@@ -68,12 +74,14 @@ export GEMINI_API_KEY=your-key-here
 
 <details>
 <summary>How to generate a Gemini API key</summary>
-Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey). 
+
+Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+
 </details>
 
 ### 4. Restart your agent
 
-Start a **new session** for the skill to appear. It won't show up in an existing session.
+Start a **new session** / reload your IDE for the skill to appear. It won't show up in an existing session.
 
 ---
 
@@ -139,7 +147,7 @@ Treat observations as evidence. Treat hypotheses as leads to investigate.
 - **`ffmpeg not found`**: Ensure ffmpeg is installed and in your PATH.
 - **`playwright not found`**: Run `pip3 install playwright`.
 - **Browser doesn't launch**: Run `playwright install chromium`.
-- **Screen recording fails** (`record.sh`): Grant Screen Recording permission to your terminal app in macOS System Settings.
+- **Screen recording fails** (`record.sh`): Grant Screen Recording permission to your terminal app / IDE in macOS System Settings.
 
 ## License
 
