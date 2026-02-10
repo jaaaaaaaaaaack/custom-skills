@@ -9,7 +9,7 @@ Get detailed, frame-level feedback for your web animations to massively simplify
 What this skill does:
 - Records a specific interaction in the browser using Playwright (or you can point it at an existing video file)
 - Chooses the best mode for the task (see below)
-- Automatically trims the video to save time and tokens, then sends it to Gemini with relevant context + a mode-specific instructions
+- Automatically trims the video to save time and tokens, then sends it to Gemini with relevant context + mode-specific instructions
 - Gemini provides structured analysis, from a quick sanity check to frame-by-frame bug diagnosis.
 
 Agents can also use **escalation**: they can choose to start with a quick 5fps check, then target specific time ranges at 24fps when something needs closer inspection. No re-recording needed, Gemini clips it to the refined time range server-side.
@@ -141,6 +141,13 @@ Use `--json` or `--raw` to override the default output format (structured JSON f
 Gemini's visual observations (what changed between frames, timing, positions) are reliable. Its theories about *why* something happens are hypotheses — it can't see your code, DOM structure, or CSS. The `diagnose` output separates these into distinct **Observations** and **Hypotheses** sections for this reason.
 
 Treat observations as evidence. Treat hypotheses as leads to investigate.
+
+## Kimi K2.5 (experimental)
+
+There's a lightly tested branch that adds `--provider kimi` to swap Gemini for [Kimi K2.5](https://platform.moonshot.ai) using the same modes, prompts, and schemas. Uses ffmpeg to pre-process video FPS and clipping (since Kimi has no native equivalents to Gemini's API-level controls).
+
+- **Branch:** [`feat/kimi-comparison`](https://github.com/jaaaaaaaaaaack/custom-skills/tree/feat/kimi-comparison)
+- **Comparison results:** [Kimi K2.5 vs Gemini 2.5 Pro — animation diagnosis comparison](https://gist.github.com/jaaaaaaaaaaack/dc5b0b61a8f0613b0aa930572781ebf5)
 
 ## Troubleshooting
 
