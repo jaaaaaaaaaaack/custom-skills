@@ -4,9 +4,9 @@
 
 # Animation Review
 
-Get frame-level feedback on your web animations for hugely simplified tweaking and debugging. Automatically records the interaction in the browser with Playwright, sends the video to Gemini, and provides structured analysis — from a quick sanity check to frame-by-frame bug diagnosis.
+Get frame-level feedback on your web animations for massively simplified tweaking and debugging. Automatically records the interaction in the browser with Playwright, sends the video to Gemini, and provides structured analysis — from a quick sanity check to frame-by-frame bug diagnosis.
 
-The key workflow is **escalation**: start with a quick 5fps check, then target into a specific time ranges at 24fps when something needs closer inspection. Same video, no re-recording — Gemini clips server-side. 
+The key workflow is **escalation**: start with a quick 5fps check, then target specific time ranges at 24fps when something needs closer inspection. Same video, no re-recording — Gemini clips server-side.
 
 Works as a [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill (Claude handles recording and analysis automatically) or standalone via CLI.
 
@@ -21,46 +21,65 @@ The skill automatically handles selecting the right level of analysis, and adjus
 | **diagnose** | 24 | Gemini 2.5 Pro | *"What's going wrong?"* — Frame-by-frame bug analysis with timestamps, pixel positions, and visual evidence for debugging. |
 | **inspire** | 24 | Gemini 2.5 Pro | *"How do I recreate this?"* — Decompose a reference video into a technology-agnostic animation spec. |
 
+
 ## Setup
 
-### Prerequisites
-
-- Python 3.8+
-- [ffmpeg](https://ffmpeg.org/) (`brew install ffmpeg` on macOS)
-- A [Gemini API key](https://aistudio.google.com/apikey)
-
-### Quick install
+### 1. Install the skill
 
 ```bash
 npx skills add jaaaaaaaaaaack/custom-skills
-pip install -r ~/.claude/skills/animation-review/requirements.txt
-playwright install chromium
 ```
 
-### API key
+### 2. Install dependencies
 
-Set your Gemini API key as an environment variable. Add this to your shell profile (`~/.zshrc`, `~/.bashrc`, etc.):
+The skill needs to install Python packages and a Chromium browser for headless recording. The easiest way is to ask Claude to do it: **Reload your IDE / start a new Claude Code session**, then say:
+
+> Install the requirements and set up the animation-review skill
+
+Claude will find the right paths and install everything for you.
+
+<details>
+<summary>**Or install manually**</summary>
+
+```bash
+pip3 install -r ~/.claude/skills/animation-review/requirements.txt
+python3 -m playwright install chromium
+```
+
+You'll also need [ffmpeg](https://ffmpeg.org/) for macOS screen recording (browser recording works without it):
+
+```bash
+brew install ffmpeg   # macOS
+```
+
+If the `pip3` command fails with "No such file or directory", the skill may have installed to `~/.agents/skills/` instead — check there. Or just ask Claude to help.
+
+</details>
+
+---
+
+### 3. Gemini API key
+
+Add your API key to your shell profile (`~/.zshrc`, `~/.bashrc`, etc.):
 
 ```bash
 export GEMINI_API_KEY=your-key-here
 ```
 
-### Manual install
+<details>
+<summary>How to generate a Gemini API key</summary>
+Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey). 
+</details>
 
-If you prefer not to use the skills CLI:
+### 4. Restart Claude Code
 
-```bash
-git clone https://github.com/jaaaaaaaaaaack/custom-skills.git
-cd custom-skills/animation-review
-pip install -r requirements.txt
-playwright install chromium
-mkdir -p ~/.claude/skills
-ln -s "$(pwd)" ~/.claude/skills/animation-review
-```
+Start a **new session** for the skill to appear. It won't show up in an existing session.
+
+---
 
 ## CLI usage (optional)
 
-When installed as a Claude Code skill, Claude handles recording and analysis automatically — just ask it to review an animation. The commands below are only needed if you want to run the scripts directly.
+When installed as a Claude Code skill, Claude handles recording and analysis automatically — just ask it to review an animation. **The commands below are only needed if you want to run the scripts directly.**
 
 ### 1. Record
 
@@ -118,7 +137,7 @@ Treat observations as evidence. Treat hypotheses as leads to investigate.
 ## Troubleshooting
 
 - **`ffmpeg not found`**: Ensure ffmpeg is installed and in your PATH.
-- **`playwright not found`**: Run `pip install playwright`.
+- **`playwright not found`**: Run `pip3 install playwright`.
 - **Browser doesn't launch**: Run `playwright install chromium`.
 - **Screen recording fails** (`record.sh`): Grant Screen Recording permission to your terminal app in macOS System Settings.
 
