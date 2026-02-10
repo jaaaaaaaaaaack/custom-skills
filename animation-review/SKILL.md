@@ -316,6 +316,56 @@ This means previous analyses can be referenced later without keeping them in con
 
 For user-provided videos, the file is copied into the results directory. For Playwright recordings from `/tmp`, the file is moved (no reason to keep the temp copy).
 
+## Provider comparison
+
+The analysis script supports swapping the LLM provider with `--provider` to compare Gemini against other models using the same modes, prompts, and schemas.
+
+### Available providers
+
+| Provider | Flag | Env var | How it works |
+|----------|------|---------|-------------|
+| **Gemini** (default) | `--provider gemini` | `GEMINI_API_KEY` | Native FPS control, server-side clipping, schema enforcement |
+| **Kimi K2.5** | `--provider kimi` | `KIMI_API_KEY` | ffmpeg pre-processes FPS + clipping, schema via prompt injection |
+
+### How fairness is maintained
+
+- **Same video, prompts, and schemas** — only the API call path changes
+- **Equivalent frame density** — Gemini uses `VideoMetadata.fps`; Kimi gets ffmpeg-resampled video at the same FPS
+- **Equivalent clipping** — `--start`/`--end` use Gemini's server-side clipping vs ffmpeg trimming for Kimi
+- **Equivalent structured output** — Gemini uses native `response_schema`; Kimi gets the schema injected into the system prompt with `extract_json_from_response()` handling imperfect compliance
+- **Equivalent model tiers** — Flash-tier modes (check, review) use Kimi instant mode; Pro-tier modes (diagnose, inspire) use Kimi thinking mode
+
+### Running a comparison
+
+```bash
+# Same video, same mode, same prompt — different provider
+python3 ~/.claude/skills/animation-review/scripts/analyze.py -t diagnose \
+  -v .animation-review/recording.mp4 --start 13s --end 18s \
+  -p "Carousel snap-to-detail handoff" --provider gemini
+
+python3 ~/.claude/skills/animation-review/scripts/analyze.py -t diagnose \
+  -v .animation-review/recording.mp4 --start 13s --end 18s \
+  -p "Carousel snap-to-detail handoff" --provider kimi
+```
+
+Results are saved with the provider in the filename (e.g. `2026-02-10_diagnose_kimi.json`) so both results coexist in `.animation-review/`.
+
+Metadata (latency, token counts, Kimi thinking mode) is printed to stderr after each run.
+
+### Kimi setup
+
+1. Get an API key from [platform.moonshot.ai](https://platform.moonshot.ai)
+2. Set `KIMI_API_KEY` in your shell profile
+3. Ensure `ffmpeg` is installed (Kimi requires video pre-processing)
+4. Ensure `openai` package is installed (`pip install openai`)
+
+### Known limitations (Kimi)
+
+- Video support is **experimental** on Kimi's official API
+- No native FPS control — relies on ffmpeg pre-processing
+- JSON compliance varies — the extraction utility handles most cases but may fall back to raw text
+- Base64 payload size grows with FPS; ffmpeg resampling mitigates this significantly
+
 ## Tips
 
 - **FPS must be specified via mode or `-f`** — without it, Gemini defaults to 1fps which is useless for animation review.

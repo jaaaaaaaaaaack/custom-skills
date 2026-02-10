@@ -4,7 +4,7 @@
 
 # Animation Review
 
-Get detailed, frame-level feedback for your web animations to massively simplify tweaking and debugging. 
+Get detailed, frame-level feedback for your web animations to massively simplify the process of tweaking and debugging. 
 
 What this skill does:
 - Records a specific interaction in the browser using Playwright (or you can point it at an existing video file)
@@ -14,7 +14,9 @@ What this skill does:
 
 Agents can also use **escalation**: they can choose to start with a quick 5fps check, then target specific time ranges at 24fps when something needs closer inspection. No re-recording needed, Gemini clips it to the refined time range server-side.
 
-Tested with [Claude Code](https://docs.anthropic.com/en/docs/claude-code), but it should also work with any agent that supports skills. It's also usable standalone via CLI.
+Tested with Claude Code, but it should also work with any agent that supports skills, the installation process might just need a bit of tweaking for your specific IDE/Agent. It's also usable standalone via CLI.
+
+**👉 Preview before you install:** A full workflow (user prompt, recorded clip, prompt sent to Gemini, and the diagnose-style response) is in the repo: [Examples/animation-review_workflow-example.md](https://github.com/jaaaaaaaaaaack/custom-skills/blob/main/Examples/animation-review_workflow-example.md).
 
 ## Modes
 
@@ -135,6 +137,16 @@ python3 scripts/analyze.py -t diagnose --start 2s --end 5s \
 ```
 
 Use `--json` or `--raw` to override the default output format (structured JSON for check/review, raw text for diagnose/inspire).
+
+### Compare providers
+
+Swap the LLM backend with `--provider` to benchmark Gemini against [Kimi K2.5](https://platform.moonshot.ai). Same video, prompts, and schemas — only the API path changes. Requires `KIMI_API_KEY` and `ffmpeg`.
+
+```bash
+python3 scripts/analyze.py -t review -v recording.mp4 --provider kimi
+```
+
+See the [SKILL.md](animation-review/SKILL.md) provider comparison section for details.
 
 ## Interpreting results
 
