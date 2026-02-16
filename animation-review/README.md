@@ -40,7 +40,9 @@ npx skills add jaaaaaaaaaaack/custom-skills
 
 The skill needs Python packages and a Chromium browser for headless recording. The easiest way is to ask your agent to do it — **start a new session**, then say:
 
-> Install the requirements and set up the animation-review skill
+```
+Install the requirements and set up the animation-review skill
+```
 
 Your agent will find the right paths and install everything for you.
 
@@ -75,7 +77,7 @@ export GEMINI_API_KEY=your-key-here
 <details>
 <summary>How to generate a Gemini API key</summary>
 
-Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey), log in to your google account, and generate a key.
 
 </details>
 
